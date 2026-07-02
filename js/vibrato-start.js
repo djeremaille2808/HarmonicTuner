@@ -9,7 +9,7 @@ import { eventsListeners } from './ui-mixer.js';
 			// simplement à activer ce calcul et afficher le panneau correspondant.
 			export function startVibrato() {
 				resetAnalysis();
-				document.getElementById("vibrato-analyzer-container").style.display = "";
+				document.getElementById("vibrato-analyzer-container").style.display = "block";
 				setVibratoActive(true);
 			}
 

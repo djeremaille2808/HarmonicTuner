@@ -383,16 +383,19 @@ import { getCookieValue, majorThirdColor, minorThirdColor, refreshRateTunerCents
 				}, refreshRateTunerSystem);
 				//fréquence d'actualisation différente pour les valeurs de cents pour la lisibilité : refreshRateTunerCents
 				let centsDisplay = document.getElementById("cents-display");
+				let centsSign = document.getElementById("cents-sign");
 				let container = document.querySelector('#container');
 				let currentAngle = 0;
 				let pointer = document.getElementById('pointer');
 				intervalId2 = setInterval(() => {
 					if (isNaN(centsInRange)) {
-						centsDisplay.innerHTML = 'cts';
+						centsSign.textContent = '±';
+						centsDisplay.textContent = '—';
 					} else {
 						//display nombre de cents intro
-						const sign = (centsInRange >= 0) ? "+" : "";
-						centsDisplay.innerHTML = sign + centsInRange.toFixed(0) + 'cts';
+						const sign = (centsInRange >= 0) ? '+' : '−';
+						centsSign.textContent = sign;
+						centsDisplay.textContent = Math.abs(centsInRange).toFixed(0);
 						//nom des notes, pas utilisé
 						//let halfTones = Math.floor(allOctavesCents / 100); // Nombre de demi-tons
 						//let notes = ['La', 'La#/Sib', 'Si', 'Do', 'Do#/Réb', 'Ré', 'Ré#/Mib', 'Mi', 'Fa', 'Fa#/Solb', 'Sol', 'Sol#/Lab'];
@@ -472,95 +475,118 @@ import { getCookieValue, majorThirdColor, minorThirdColor, refreshRateTunerCents
 			}
 			
 			
-			//drag, écoute évènemetns de toucher et de souris
+			// drag — rotation angulaire depuis le centre de la roue + inertie
 			let dragActivated = false;
-			let isDragging;
-			let initialX;
-			let finalX;
-			let xDiff;
+			let isDragging = false;
 			let currentAngleDrag = 0;
-			let rotateSpeed = 30;
-			let dragThreshold = 20;
+			let prevDragAngle = 0;
+			let dragVelocity = 0;
+			let dragLastTime = 0;
+			let inertiaFrame = null;
+
+			function getAngleFromCenter(clientX, clientY, container) {
+				const rect = container.getBoundingClientRect();
+				const cx = rect.left + rect.width / 2;
+				const cy = rect.top + rect.height / 2;
+				return Math.atan2(clientY - cy, clientX - cx) * 180 / Math.PI;
+			}
+
+			function clampDelta(delta) {
+				if (delta > 180) delta -= 360;
+				if (delta < -180) delta += 360;
+				return delta;
+			}
+
+			function applyInertia() {
+				if (Math.abs(dragVelocity) < 0.05) { dragVelocity = 0; return; }
+				dragVelocity *= 0.93;
+				currentAngleDrag += dragVelocity;
+				const container = document.querySelector('#container');
+				container.style.transform = `translate(-50%, -50%) rotate(${currentAngleDrag}deg)`;
+				inertiaFrame = requestAnimationFrame(applyInertia);
+			}
 
 			export function startDrag() {
 				dragActivated = true;
-				let container = document.querySelector('#container');
-				container.addEventListener("touchstart", handleTouchStart);
+				const container = document.querySelector('#container');
+				container.addEventListener("touchstart", handleTouchStart, { passive: true });
 				container.addEventListener("touchend", handleTouchEnd);
-				container.addEventListener("touchmove", handleTouchMove);
+				container.addEventListener("touchmove", handleTouchMove, { passive: true });
 				container.addEventListener("mousedown", handleMouseDown);
-				container.addEventListener("mouseup", handleMouseUp);
-				container.addEventListener("mousemove", handleMouseMove);
+				document.addEventListener("mouseup", handleMouseUp);
+				document.addEventListener("mousemove", handleMouseMove);
 			}
 
 			export function stopDrag() {
 				dragActivated = false;
-				let container = document.querySelector('#container');
+				const container = document.querySelector('#container');
 				container.removeEventListener("touchstart", handleTouchStart);
 				container.removeEventListener("touchend", handleTouchEnd);
 				container.removeEventListener("touchmove", handleTouchMove);
 				container.removeEventListener("mousedown", handleMouseDown);
-				container.removeEventListener("mouseup", handleMouseUp);
-				container.removeEventListener("mousemove", handleMouseMove);
+				document.removeEventListener("mouseup", handleMouseUp);
+				document.removeEventListener("mousemove", handleMouseMove);
+				if (inertiaFrame) { cancelAnimationFrame(inertiaFrame); inertiaFrame = null; }
 			}
 
 			function handleTouchStart(event) {
-				if (dragActivated === false) return;
+				if (!dragActivated) return;
+				if (inertiaFrame) { cancelAnimationFrame(inertiaFrame); inertiaFrame = null; }
 				isDragging = true;
-				initialX = event.touches[0].clientX;
-			}
-
-			function handleTouchEnd(event) {
-				if (dragActivated === false) return;
-				let container = document.querySelector('#container');
-				isDragging = false;
-				finalX = event.changedTouches[0].clientX;
-				xDiff = finalX - initialX;
-				if (Math.abs(xDiff) > dragThreshold) {
-					currentAngleDrag += xDiff * rotateSpeed / window.innerWidth;
-					container.style.transform = `translate(-50%, -50%) rotate(${currentAngleDrag}deg)`;
-				}
+				dragVelocity = 0;
+				const t = event.touches[0];
+				prevDragAngle = getAngleFromCenter(t.clientX, t.clientY, document.querySelector('#container'));
+				dragLastTime = performance.now();
 			}
 
 			function handleTouchMove(event) {
-				if (dragActivated === false) return;
-				let container = document.querySelector('#container');
-				if (!isDragging) return;
-				finalX = event.touches[0].clientX;
-				xDiff = finalX - initialX;
-				if (Math.abs(xDiff) > dragThreshold) {
-					currentAngleDrag += xDiff * rotateSpeed / window.innerWidth;
-					container.style.transform = `translate(-50%, -50%) rotate(${currentAngleDrag}deg)`;
-				}
+				if (!dragActivated || !isDragging) return;
+				const t = event.touches[0];
+				const container = document.querySelector('#container');
+				const angle = getAngleFromCenter(t.clientX, t.clientY, container);
+				const delta = clampDelta(angle - prevDragAngle);
+				const now = performance.now();
+				const dt = now - dragLastTime;
+				if (dt > 0) dragVelocity = delta / dt * 16;
+				currentAngleDrag += delta;
+				prevDragAngle = angle;
+				dragLastTime = now;
+				container.style.transform = `translate(-50%, -50%) rotate(${currentAngleDrag}deg)`;
+			}
+
+			function handleTouchEnd() {
+				if (!dragActivated) return;
+				isDragging = false;
+				inertiaFrame = requestAnimationFrame(applyInertia);
 			}
 
 			function handleMouseDown(event) {
-				if (dragActivated === false) return;
+				if (!dragActivated) return;
+				if (inertiaFrame) { cancelAnimationFrame(inertiaFrame); inertiaFrame = null; }
 				isDragging = true;
-				initialX = event.clientX;
-			}
-
-			function handleMouseUp(event) {
-				if (dragActivated === false) return;
-				isDragging = false;
-				finalX = event.clientX;
-				xDiff = finalX - initialX;
-				// Ajoutez un filtre pour éliminer les soubresauts
-				if (Math.abs(xDiff) < dragThreshold) return;
-				let container = document.querySelector('#container');
-				currentAngleDrag += xDiff * 10 / window.innerWidth;
-				container.style.transform = `translate(-50%, -50%) rotate(${currentAngleDrag}deg)`;
+				dragVelocity = 0;
+				prevDragAngle = getAngleFromCenter(event.clientX, event.clientY, document.querySelector('#container'));
+				dragLastTime = performance.now();
 			}
 
 			function handleMouseMove(event) {
-				if (dragActivated === false) return;
-				let container = document.querySelector('#container');
-				if (!isDragging) return;
-				finalX = event.clientX;
-				xDiff = finalX - initialX;
-				currentAngleDrag += xDiff * 10 / window.innerWidth;
-				currentAngleDrag = currentAngleDrag % 360;
+				if (!dragActivated || !isDragging) return;
+				const container = document.querySelector('#container');
+				const angle = getAngleFromCenter(event.clientX, event.clientY, container);
+				const delta = clampDelta(angle - prevDragAngle);
+				const now = performance.now();
+				const dt = now - dragLastTime;
+				if (dt > 0) dragVelocity = delta / dt * 16;
+				currentAngleDrag += delta;
+				prevDragAngle = angle;
+				dragLastTime = now;
 				container.style.transform = `translate(-50%, -50%) rotate(${currentAngleDrag}deg)`;
+			}
+
+			function handleMouseUp() {
+				if (!dragActivated) return;
+				isDragging = false;
+				inertiaFrame = requestAnimationFrame(applyInertia);
 			}
 			//gestion canva (ligne tracé cents)
 
