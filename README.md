@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-# HarmonicTuner
-=======
 # Harmonic Tuner v2.0
 
 ## Description
@@ -10,6 +7,11 @@ Harmonic Tuner v2.0 is a web-based interactive musical tool designed for tuning 
 Key goals: Help musicians tune accurately, experiment with harmonic overtones, and visualize cents deviations from reference frequencies (default A4=442Hz).
 
 v2.0 also adds a **vibrato analyzer** (separate microphone capture + real-time visualization) alongside the original tuner and note-playback features.
+
+## Documentation
+
+- **[Mode d'emploi](mode-d-emploi.md)** — user manual in French (Markdown)
+- **[Manuel PDF](manual.pdf)** — printable version of the user manual
 
 ## Features
 
@@ -45,7 +47,7 @@ The app starts with a loading screen and requires microphone access for tuning.
      then open `http://localhost:8321/`.
    - Note: Audio features require user permission for microphone, and installed/standalone PWA launches require HTTPS (or localhost) for the service worker.
 3. **Dependencies**: None external besides browser APIs (Web Audio API). The `pitchy` library is embedded in `pitchy/`.
-4. **Build**: No build step needed. The code is split into `css/*.css` and `js/*.js` files (see Architecture below); edit constants (e.g., diapason) in `js/settings-storage.js`.
+4. **Build**: No build step needed. The code is split into `css/*.css` and `js/*.js` files; edit constants (e.g., diapason) in `js/settings-storage.js`.
 
 ## Quick Start
 
@@ -55,12 +57,12 @@ The app starts with a loading screen and requires microphone access for tuning.
 4. Play a note on your instrument into the mic; the needle will indicate if it's in tune (0 cents = perfect).
 5. Click inner/outer buttons to play reference tones and compare.
 
-For detailed usage, see [Mode d'emploi](mode-d-emploi.md) (user manual in French).
+For detailed usage, see [Mode d'emploi](mode-d-emploi.md) or the [PDF manual](manual.pdf).
 
 ## Architecture
 
 - **Single entry point**: `index.html` is served for normal web visits and is also declared as `start_url` in `manifest_v2.0.json` for the installed PWA.
-- **Code layout**: the original single-file app has been split into `css/styles.css`, `css/vibrato-panel.css`, and ~15 ES modules under `js/` (data, tuner logic, UI panels, vibrato analysis), all wired together from `js/main.js`. See `CLAUDE.md` for the full module-by-module breakdown.
+- **Code layout**: the original single-file app has been split into `css/styles.css`, `css/vibrato-panel.css`, and ~15 ES modules under `js/` (data, tuner logic, UI panels, vibrato analysis), all wired together from `js/main.js`.
 - **Offline caching**: `service-worker.js` caches every asset listed above; its `cacheName` must be bumped whenever a cached file is added, removed, or changed, or installed clients won't pick up the update.
 
 ## Usage Overview
@@ -89,7 +91,7 @@ For detailed usage, see [Mode d'emploi](mode-d-emploi.md) (user manual in French
 
 - Fork the repo, make changes (e.g., add features like more temperaments).
 - Test on multiple devices/browsers.
-- Pull requests welcome for bug fixes or enhancements (e.g., add equal temperament visuals).
+- Pull requests welcome for bug fixes or enhancements.
 
 ## License
 
@@ -98,4 +100,3 @@ MIT License - Free to use, modify, and distribute. Credit appreciated.
 ---
 
 *Last updated: July 2026*
->>>>>>> 4d76b80 (Initial commit — Harmonic Tuner v2.0)
