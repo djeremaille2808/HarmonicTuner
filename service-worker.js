@@ -1,4 +1,4 @@
-let cacheName = "v2.0.16";
+let cacheName = "v3.0.0";
 
 // Mise en cache initiale des ressources
 self.addEventListener('install', function(event) {

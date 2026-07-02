@@ -1,4 +1,4 @@
-# Harmonic Tuner v2.0
+# Harmonic Tuner v3
 
 ## Description
 
@@ -6,7 +6,7 @@ Harmonic Tuner v2.0 is a web-based interactive musical tool designed for tuning 
 
 Key goals: Help musicians tune accurately, experiment with harmonic overtones, and visualize cents deviations from reference frequencies (default A4=442Hz).
 
-v2.0 also adds a **vibrato analyzer** (separate microphone capture + real-time visualization) alongside the original tuner and note-playback features.
+v3 also adds a **vibrato analyzer** (separate microphone capture + real-time visualization) alongside the original tuner and note-playback features.
 
 ## Documentation
 
@@ -61,7 +61,7 @@ For detailed usage, see [Mode d'emploi](mode-d-emploi.md) or the [PDF manual](ma
 
 ## Architecture
 
-- **Single entry point**: `index.html` is served for normal web visits and is also declared as `start_url` in `manifest_v2.0.json` for the installed PWA.
+- **Single entry point**: `index.html` is served for normal web visits and is also declared as `start_url` in `manifest_v3.json` for the installed PWA.
 - **Code layout**: the original single-file app has been split into `css/styles.css`, `css/vibrato-panel.css`, and ~15 ES modules under `js/` (data, tuner logic, UI panels, vibrato analysis), all wired together from `js/main.js`.
 - **Offline caching**: `service-worker.js` caches every asset listed above; its `cacheName` must be bumped whenever a cached file is added, removed, or changed, or installed clients won't pick up the update.
 
