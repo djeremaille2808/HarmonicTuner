@@ -1,0 +1,113 @@
+						.vibrato-analyzer-container {
+							color: #f0ddc6;
+							text-shadow: 0 1px 2px rgba(0, 0, 0, 0.85);
+							position: fixed;
+							left: 50vw;
+							top: 28vh;
+							transform: translate(-50%, 0%);
+							transition: opacity 1s;
+							z-index: auto;
+							width: 100vw;
+							height: 4vh;
+							display: none;
+						}
+						.visualizers-container {
+							height : 4vh;
+							width: 100vw;
+						}
+						.visualizer-wrapper {
+							width: 50vw;
+							height: 100%;
+							text-align: center;
+							font-weight: bold;
+							
+						}
+						.speed-wrapper {position: absolute; left: 0;}
+						.amplitude-wrapper {position: absolute; right: 0;}
+						
+						.visualizer-container {
+							width: 4vh;
+							height: 45vw;
+						}
+
+						.vibrato-analyzer-container .visualizer-gradient {
+							position: absolute;
+							top: 0;
+							left: 0;
+							width: 100%;
+							height: 100%;
+							background: linear-gradient(#1a120b, #d4af6a);
+							border: 1px solid rgba(240, 221, 198, 0.35);
+							box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.6);
+						}
+
+						.vibrato-analyzer-container .amplitude-gradient {
+							background: linear-gradient(#1a120b, #d4af6a);
+						}
+
+						.vibrato-analyzer-container .visualizer-needle {
+							position: absolute;
+							left: 0;
+							width: 100%;
+							height: 3px;
+							background-color: #f0ddc6;
+							box-shadow: 0 0 3px rgba(0, 0, 0, 0.8);
+							top: 50%;
+							transform: translateY(-50%);
+							z-index: 1;
+						}
+
+						#speed-visualizer {
+							position: absolute;
+							left: 0vw;
+							transform: rotate(270deg) translate(0%, -10%);
+							transform-origin: top right;
+						}
+
+
+						#amplitude-visualizer {
+							position: absolute;
+							left: 0vw;
+							transform: rotate(270deg) translate(0%, -10%);
+							transform-origin: top right;
+						}
+						.labels-container{
+							display: none;
+						}
+						.slow, .fast, .narrow, .wide, .hertz-value, .hertz, .width-value, .width {
+							
+							position: fixed;
+							top: 1vh;
+							z-index: 20;
+						}
+						.slow {
+							display: none;
+							left: 28vh;
+							transform: rotate(-90deg);
+							
+						}
+						.narrow {
+							display: none;
+							right: 1vh;
+							transform: rotate(-90deg);
+						}
+						.wide {
+							display: none;
+							right: 26vh;
+							transform: rotate(-90deg);
+						}
+						.fast {
+							display: none;
+							left: 2vh;
+							transform: rotate(-90deg);
+						}
+						.hertz-value {
+							left: 22vw;
+							font-weight: bold;
+							z-index: 30;
+						}
+						.width-value {
+							right: 22vw;
+							font-weight: bold;
+							z-index: 30;
+						}

@@ -1,0 +1,9 @@
+# Backups
+*.bak
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Claude Code (settings locaux, non partagés)
+.claude/settings.local.json

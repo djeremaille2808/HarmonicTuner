@@ -1,0 +1,43 @@
+{
+  "name": "Harmonic Tuner v2.0",
+  "short_name": "Harmonic Tuner",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#0b0908",
+  "theme_color": "#241a10",
+  "icons": [
+    {
+      "src": "icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "cache": [
+    "index.html",
+	"icon-512x512.png",
+	"bg_texture.jpg",
+	"Roboto.ttf",
+	"pitchy/fft.js",
+	"pitchy/fft.js.map",
+	"pitchy/pitchy.js",
+	"pitchy/pitchy.js.map",
+	"css/styles.css",
+	"css/vibrato-panel.css",
+	"js/main.js",
+	"js/data/notes-config.js",
+	"js/harmonic-tuner-notes.js",
+	"js/mic-tuner.js",
+	"js/settings-storage.js",
+	"js/ui-frequency-slider.js",
+	"js/ui-graduation-big.js",
+	"js/ui-graduation-circles.js",
+	"js/ui-graduation-mini.js",
+	"js/ui-memory-buttons.js",
+	"js/ui-mixer.js",
+	"js/ui-note-layout.js",
+	"js/ui-settings-panel.js",
+	"js/vibrato-analysis.js",
+	"js/vibrato-canvas-init.js",
+	"js/vibrato-start.js"
+  ]
+}
