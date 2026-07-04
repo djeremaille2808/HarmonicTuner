@@ -24,6 +24,9 @@ import { stopAnalysis, tickVibratoAnalysis } from './vibrato-analysis.js';
 				null,
 			];
 			let inputBufferSize = 2048;
+			// Seuil RMS en dessous duquel on considère qu'aucun son n'est joué :
+			// évite de lancer l'autocorrélation (coûteuse) de Pitchy sur du silence/bruit de fond.
+			const SILENCE_RMS_THRESHOLD = 0.003;
 
 
 
@@ -52,7 +55,18 @@ import { stopAnalysis, tickVibratoAnalysis } from './vibrato-analysis.js';
 				if (!analyserNode || !detector || !sampleRate || !inputBuffer) return;
 
 				analyserNode.getFloatTimeDomainData(inputBuffer);
-				historyFreq.push(detector.findPitch(inputBuffer, sampleRate));
+
+				let sumSquares = 0;
+				for (let i = 0; i < inputBuffer.length; i++) {
+					sumSquares += inputBuffer[i] * inputBuffer[i];
+				}
+				const rms = Math.sqrt(sumSquares / inputBuffer.length);
+
+				historyFreq.push(
+					rms < SILENCE_RMS_THRESHOLD
+						? [0, 0]
+						: detector.findPitch(inputBuffer, sampleRate)
+				);
 				if (historyFreq.length > historyLength) {
 					historyFreq.shift();
 				}

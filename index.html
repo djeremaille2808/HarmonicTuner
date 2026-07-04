@@ -19,7 +19,13 @@
                 navigator.serviceWorker.register('service-worker.js');
                 navigator.serviceWorker.addEventListener('controllerchange', () => {
                     if (hadController) {
-                        document.getElementById('update-banner').style.display = 'flex';
+                        const startScreen = document.getElementById('start');
+                        const stillLoading = startScreen && startScreen.style.display !== 'none';
+                        if (stillLoading) {
+                            document.getElementById('loading-update').style.display = 'block';
+                        } else {
+                            document.getElementById('update-banner').style.display = 'flex';
+                        }
                     }
                 });
             }
@@ -39,6 +45,10 @@
         <div id="start">
             <div id="loading-bar">
                 <div id="loading-spinner"></div>
+                <div id="loading-update">
+                    <p>Nouvelle version disponible</p>
+                    <button onclick="location.reload()">↻ Recharger</button>
+                </div>
                 <p>
                     Chargement<span id="loading-dots">...</span>
                 </p>

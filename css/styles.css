@@ -40,7 +40,7 @@
 					letter-spacing: 0.35em;
 					text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.65), 1px 1px 1px rgba(255, 255, 255, 0.1);
 					pointer-events: none;
-					z-index: 0;
+					z-index: 40;
 					}
 					#start {
 					position: fixed;
@@ -142,6 +142,8 @@
 					transform: translate(-50%, -50%);
 					transition: background 0.5s;
 					width: 3%;
+					aspect-ratio: 1 / 1;
+					object-fit: cover;
 					z-index: 100;
 					}
 					#up-button-intro,
@@ -150,12 +152,15 @@
 					border-radius: 50%;
 					background: #f0ddc6;
 					left: 15%;
+					padding: 0.5%;
 					position: fixed;
 					top: 50%;
 					touch-action: manipulation;
 					transform: translate(-50%, -50%);
 					transition: background 0.5s, opacity 0.5s;
-					width: 4%;
+					width: 3%;
+					aspect-ratio: 1 / 1;
+					object-fit: cover;
 					z-index: 100;
 					}
 					#down-button-intro {
@@ -179,12 +184,15 @@
 					border: 2px solid #d4af6a;
 					border-radius: 50%;
 					left: 5%;
+					padding: 0.5%;
 					position: fixed;
 					top: 50%;
 					touch-action: manipulation;
 					transform: translate(-50%, -50%);
 					transition: background 0.5s;
-					width: 4%;
+					width: 3%;
+					aspect-ratio: 1 / 1;
+					object-fit: cover;
 					z-index: 100;
 					}
 					#label {
@@ -228,18 +236,22 @@
 					color: #f0ddc6;
 					box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.6);
 					left: 50%;
-					padding: 2% 1%;
+					padding: 0.3vw 1vw;
 					position: absolute;
 					top: 50%;
 					transform: translate(-50%, -50%);
 					width: 20%;
-					font-size: 2em;
+					height: 5.8vw;
+					max-height: 5.8vw;
+					overflow: hidden;
+					font-size: 1.5em;
 					transition: opacity 0.5s;
 					display: flex;
 					flex-direction: column;
 					align-items: center;
 					justify-content: center;
 					gap: 2px;
+					box-sizing: border-box;
 					}
 					#cents-display {
 					text-align: center;
@@ -497,6 +509,8 @@
 					transform: translate(-150%, -50%);
 					transition: background 0.5s, opacity 0.5s;
 					width: 3%;
+					aspect-ratio: 1 / 1;
+					object-fit: cover;
 					z-index: 10;
 					}
 					.mixer-btn {
@@ -1417,7 +1431,7 @@
 					content: "HARMONIC TUNER";
 					position: fixed;
 					left: 50%;
-					top: 35%;
+					top: 45%;
 					transform: translate(-50%, -50%);
 					width: 90vw;
 					color: #1c1d1f;
@@ -1428,7 +1442,8 @@
 					letter-spacing: 0.35em;
 					text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.65), 1px 1px 1px rgba(255, 255, 255, 0.1);
 					pointer-events: none;
-					z-index: 0;
+					z-index: 0
+						;
 					}
 					#start {
 					left: 50%;
@@ -1520,7 +1535,7 @@
 					border: 2px solid #d4af6a;
 					border-radius: 50%;
 					background: #f0ddc6;
-					left: 12%;
+					left: 14%;
 					padding: 0.5%;
 					position: absolute;
 					top: 50%;
@@ -1528,6 +1543,8 @@
 					transform: translate(-50%, -50%);
 					transition: background 0.5s, opacity 0.5s;
 					width: 6%;
+					aspect-ratio: 1 / 1;
+					object-fit: cover;
 					z-index: 100;
 					}
 					#up-button-intro,
@@ -1535,7 +1552,7 @@
 					border: 2px solid #d4af6a;
 					border-radius: 50%;
 					background: #f0ddc6;
-					left: 22%;
+					left: 23%;
 					padding: 0.5%;
 					position: absolute;
 					top: 50%;
@@ -1543,6 +1560,8 @@
 					transform: translate(-50%, -50%);
 					transition: background 0.5s, opacity 0.5s;
 					width: 6%;
+					aspect-ratio: 1 / 1;
+					object-fit: cover;
 					z-index: 100;
 					}
 					#down-button-intro {
@@ -1566,12 +1585,15 @@
 					border: 2px solid #d4af6a;
 					border-radius: 50%;
 					left: 5%;
+					padding: 0.5%;
 					position: absolute;
 					top: 50%;
 					touch-action: manipulation;
 					transform: translate(-50%, -50%);
 					transition: background 0.5s;
 					width: 6%;
+					aspect-ratio: 1 / 1;
+					object-fit: cover;
 					z-index: 100;
 					}
 					#slider {
@@ -1607,18 +1629,22 @@
 					color: #f0ddc6;
 					box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.6);
 					left: 50%;
-					padding: 3% 2%;
+					padding: 0.5vh 2%;
 					position: absolute;
 					top: 50%;
 					transform: translate(-50%, -50%);
 					width: 28%;
+					height: 11vh;
+					max-height: 11vh;
+					overflow: hidden;
+					box-sizing: border-box;
 					transition: opacity 0.5s;
 					display: flex;
 					flex-direction: column;
 					align-items: center;
 					justify-content: center;
 					gap: 3px;
-					font-size: 2.5em;
+					font-size: 2em;
 					}
 					#cents-display {
 					text-align: center;
@@ -1878,6 +1904,8 @@
 					transform: translate(-150%, -50%);
 					transition: background 0.5s, opacity 0.5s;
 					width: 6%;
+					aspect-ratio: 1 / 1;
+					object-fit: cover;
 					z-index: 10;
 					}
 					.mixer-btn {
@@ -2902,6 +2930,36 @@
 				from { opacity: 0; transform: scale(0.9); }
 				to { opacity: 1; transform: scale(1); }
 			}
+		}
+
+		/* Invite de rechargement sous le spinner de l'écran de chargement — hors media query pour s'appliquer partout */
+		#loading-update {
+			display: none;
+			margin: 0 0 3vh;
+		}
+
+		#loading-update p {
+			margin: 0 0 1.2vh;
+			font-size: 0.85em;
+			letter-spacing: 0.04em;
+			color: #d4af6a;
+		}
+
+		#loading-update button {
+			padding: 6px 14px;
+			background: transparent;
+			border: 1px solid #d4af6a;
+			border-radius: 4px;
+			color: #d4af6a;
+			font-family: 'Roboto', sans-serif;
+			font-size: 0.9em;
+			cursor: pointer;
+			transition: background 0.2s, color 0.2s;
+		}
+
+		#loading-update button:hover {
+			background: #d4af6a;
+			color: #0a0a0b;
 		}
 
 		/* Bannière de mise à jour — hors media query pour s'appliquer partout */
